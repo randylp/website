@@ -10,35 +10,34 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Test Website
-
-```{r}
- hist(rnorm(50,0,1))
-```
-
 # Test Map
+
+## Load libraries
 
 ```{r}
 library(dplyr)
 library(leaflet)
 ```
 
+## Load tag recovery data
 ```{r}
 recov = read.csv("data/CSV8913.TXT", header=TRUE)
 loc_defs = read.csv("data/CSV10393.TXT", header=TRUE)
 loc_defs = subset(loc_defs, !is.na(latitude))
 recov = left_join(recov, loc_defs, by=c("recovery_location_code"="location_code"))
-
 recov2 = subset(recov, !is.na(latitude))
 
 ```
 
+
+## Unuk CWT recoveries!
 ```{r}
 
 m <- leaflet(recov2)  %>%
-  setView(median(recov2$longitude), median(recov2$latitude), zoom = 4) %>%
+  setView(median(recov2$longitude), median(recov2$latitude), zoom = 3) %>%
   addTiles() %>% 
   addMarkers(lng=~longitude, lat=~latitude)
 
 m
+
 ```
