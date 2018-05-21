@@ -15,3 +15,30 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
  hist(rnorm(50,0,1))
 ```
+
+# Test Map
+
+```{r}
+library(dplyr)
+library(leaflet)
+```
+
+```{r}
+recov = read.csv("data/CSV8913.TXT", header=TRUE)
+loc_defs = read.csv("data/CSV10393.TXT", header=TRUE)
+loc_defs = subset(loc_defs, !is.na(latitude))
+recov = left_join(recov, loc_defs, by=c("recovery_location_code"="location_code"))
+
+recov2 = subset(recov, !is.na(latitude))
+
+```
+
+```{r}
+
+m <- leaflet(recov2)  %>%
+  setView(median(recov2$longitude), median(recov2$latitude), zoom = 4) %>%
+  addTiles() %>% 
+  addMarkers(lng=~longitude, lat=~latitude)
+
+m
+```
