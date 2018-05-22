@@ -36,7 +36,8 @@ recov2 = subset(recov, !is.na(latitude))
 m <- leaflet(recov2)  %>%
   setView(median(recov2$longitude), median(recov2$latitude), zoom = 3) %>%
   addTiles() %>% 
-  addMarkers(lng=~longitude, lat=~latitude)
+  addMarkers(lng=~longitude, lat=~latitude, popup = ~ name) %>%
+  addCircleMarkers(~longitude, ~latitude, radius = ~estimated_number)
 
 m
 
